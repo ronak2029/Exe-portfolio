@@ -563,13 +563,14 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   async function sendInquiry(email, category, message) {
     if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY" || EMAILJS_SERVICE_ID === "YOUR_SERVICE_ID" || EMAILJS_TEMPLATE_ID === "YOUR_TEMPLATE_ID") {
-      throw new Error("EmailJS credentials are not configured yet in app.js.");
+      throw new Error("EmailJS credentials are not configured yet.");
     }
 
     const templateParams = {
       client_email: email,
-      inquiry_category: category,
-      message_details: message
+      subject: category,
+      message: message,
+      time: new Date().toLocaleString()
     };
 
     return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
@@ -603,8 +604,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Step 4: Success feedback
         showToast(
           'success',
-          'Inquiry sent successfully.',
-          'Our couture team will contact you within 24 hours.'
+          'Inquiry Sent Successfully',
+          'Our atelier will contact you shortly.'
         );
 
         // Optional secondary panel updates
@@ -625,7 +626,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast(
           'error',
           'Unable to send inquiry.',
-          error.message || 'Please verify your SMTP credentials or try again later.'
+          'Please try again.'
         );
       } finally {
         // Step 7: Restore submit state
