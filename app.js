@@ -410,75 +410,227 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  // Support Ticket Form
-  // Get your free access key at https://web3forms.com/
-  const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
+  // ============================================================
+  // EMAILJS INTEGRATION CONFIGURATION
+  // Please replace placeholders below with your actual credentials.
+  // ============================================================
+  const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+  const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
+  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
 
+  /**
+   * Initializes the EmailJS library
+   */
+  function initEmail() {
+    try {
+      if (typeof emailjs !== 'undefined') {
+        if (EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
+          emailjs.init(EMAILJS_PUBLIC_KEY);
+        }
+      } else {
+        console.warn('EmailJS SDK not loaded yet.');
+      }
+    } catch (error) {
+      console.error('Error during EmailJS initialization:', error);
+    }
+  }
+
+  // Run initialization
+  initEmail();
+
+  /**
+   * Spawns a custom luxury toast notification in the top-right corner
+   * @param {'success' | 'error'} type
+   * @param {string} title
+   * @param {string} description
+   */
+  function showToast(type, title, description) {
+    // Locate or create the fixed toast container
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'toast-container';
+      document.body.appendChild(container);
+    }
+
+    // Create the toast element
+    const toast = document.createElement('div');
+    toast.className = `luxury-toast toast-${type}`;
+    toast.innerHTML = `
+      <div class="toast-title">
+        <span>${type === 'success' ? '✓' : '✕'}</span>
+        <span>${title}</span>
+      </div>
+      <div class="toast-desc">${description}</div>
+    `;
+
+    // Append to container
+    container.appendChild(toast);
+
+    // Slide in transition
+    setTimeout(() => {
+      toast.classList.add('active');
+    }, 50);
+
+    // Slide up / Fade out after 4 seconds
+    setTimeout(() => {
+      toast.classList.add('fade-out');
+      // Wait for transitions to finish (350ms) then remove from DOM
+      setTimeout(() => {
+        toast.remove();
+        if (container.children.length === 0) {
+          container.remove();
+        }
+      }, 350);
+    }, 4000);
+  }
+
+  /**
+   * Validates form parameters
+   * @param {string} email
+   * @param {string} category
+   * @param {string} message
+   * @returns {boolean}
+   */
+  function validateForm(email, category, message) {
+    if (!email) {
+      showToast('error', 'Validation Error', 'Registered Client Email is required.');
+      return false;
+    }
+    
+    // Proper email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showToast('error', 'Validation Error', 'Please enter a valid email format.');
+      return false;
+    }
+
+    if (!category) {
+      showToast('error', 'Validation Error', 'Inquiry Subject is required.');
+      return false;
+    }
+
+    if (!message || message.trim() === '') {
+      showToast('error', 'Validation Error', 'Please describe your inquiry.');
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Disables form elements and sets loading state on submit button
+   * @param {HTMLFormElement} form
+   * @param {boolean} isLoading
+   */
+  function setLoadingState(form, isLoading) {
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const inputs = form.querySelectorAll('.form-input');
+    
+    if (submitBtn) {
+      if (isLoading) {
+        submitBtn.classList.add('btn-loading');
+        submitBtn.disabled = true;
+      } else {
+        submitBtn.classList.remove('btn-loading');
+        submitBtn.disabled = false;
+      }
+    }
+
+    inputs.forEach(input => {
+      input.disabled = isLoading;
+    });
+  }
+
+  /**
+   * Resets form fields
+   * @param {HTMLFormElement} form
+   */
+  function resetForm(form) {
+    try {
+      form.reset();
+    } catch (error) {
+      console.error('Error resetting form:', error);
+    }
+  }
+
+  /**
+   * Sends the inquiry payload via EmailJS
+   * @param {string} email
+   * @param {string} category
+   * @param {string} message
+   * @returns {Promise<any>}
+   */
+  async function sendInquiry(email, category, message) {
+    if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY" || EMAILJS_SERVICE_ID === "YOUR_SERVICE_ID" || EMAILJS_TEMPLATE_ID === "YOUR_TEMPLATE_ID") {
+      throw new Error("EmailJS credentials are not configured yet in app.js.");
+    }
+
+    const templateParams = {
+      client_email: email,
+      inquiry_category: category,
+      message_details: message
+    };
+
+    return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+  }
+
+  // Setup form listener
   const ticketForm = document.getElementById('support-ticket-form');
   const ticketSuccess = document.getElementById('ticket-success');
   const ticketIdDisplay = document.getElementById('ticket-id-display');
-  if (ticketForm && ticketSuccess) {
-    ticketForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const submitBtn = ticketForm.querySelector('button[type="submit"]');
-      const email = document.getElementById('ticket-email').value;
-      const category = document.getElementById('ticket-category').value;
-      const message = document.getElementById('ticket-desc').value;
-      
-      if (submitBtn) {
-        submitBtn.innerHTML = 'Sending Inquiry...';
-        submitBtn.disabled = true;
-      }
 
-      if (WEB3FORMS_ACCESS_KEY === "YOUR_ACCESS_KEY_HERE") {
-        if (submitBtn) {
-          submitBtn.innerHTML = 'Send Inquiry';
-          submitBtn.disabled = false;
-        }
-        alert('Configuration Required: Please set your Web3Forms Access Key in app.js (line 415).');
+  if (ticketForm) {
+    ticketForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('ticket-email').value.trim();
+      const category = document.getElementById('ticket-category').value;
+      const message = document.getElementById('ticket-desc').value.trim();
+
+      // Step 1: Validate input fields
+      if (!validateForm(email, category, message)) {
         return;
       }
-      
-      fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          from_name: 'Maison AURA Support',
-          subject: `New Maison AURA Inquiry: ${category.toUpperCase()}`,
-          email: email,
-          category: category,
-          message: message
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (submitBtn) {
-          submitBtn.innerHTML = 'Send Inquiry';
-          submitBtn.disabled = false;
+
+      // Step 2: Show loading status on the button
+      setLoadingState(ticketForm, true);
+
+      try {
+        // Step 3: Trigger async email send
+        await sendInquiry(email, category, message);
+
+        // Step 4: Success feedback
+        showToast(
+          'success',
+          'Inquiry sent successfully.',
+          'Our couture team will contact you within 24 hours.'
+        );
+
+        // Optional secondary panel updates
+        const randomId = Math.floor(10000 + Math.random() * 90000);
+        if (ticketIdDisplay) {
+          ticketIdDisplay.innerText = `Ticket ID: #AURA-${randomId} (Emailed)`;
         }
-        if (data.success) {
-          const randomId = Math.floor(10000 + Math.random() * 90000);
-          if (ticketIdDisplay) {
-            ticketIdDisplay.innerText = `Ticket ID: #AURA-${randomId} (Sent via Web3Forms)`;
-          }
-          ticketForm.reset();
+        if (ticketSuccess) {
           ticketSuccess.classList.add('active');
-        } else {
-          alert('Delivery Error: ' + (data.message || 'Verification failed. Check your Web3Forms access key.'));
         }
-      })
-      .catch(err => {
-        if (submitBtn) {
-          submitBtn.innerHTML = 'Send Inquiry';
-          submitBtn.disabled = false;
-        }
-        console.error(err);
-        alert('Network/Server Error: Unable to contact the form submit service.');
-      });
+
+        // Step 5: Clean up form
+        resetForm(ticketForm);
+
+      } catch (error) {
+        // Step 6: Failure feedback
+        console.error('EmailJS Delivery Failure:', error);
+        showToast(
+          'error',
+          'Unable to send inquiry.',
+          error.message || 'Please verify your SMTP credentials or try again later.'
+        );
+      } finally {
+        // Step 7: Restore submit state
+        setLoadingState(ticketForm, false);
+      }
     });
   }
 
