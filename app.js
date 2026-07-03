@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <h4 style="color: var(--color-text-secondary); margin-bottom: 2rem; font-family: 'Inter', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500;">Collection Scope: ${proj.category}</h4>
           <div class="modal-body">${proj.content}</div>
           <div style="margin-top: 2.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
-            <button class="btn btn-primary" onclick="alert('Inquire for bespoke pricing options regarding this collection at our showroom...');">Request Atelier Pricing</button>
+            <button class="btn btn-primary" onclick="window.showToast('success', 'Inquiry Received', 'Our design office will contact you regarding this showcase piece.');">Request Atelier Details</button>
           </div>
         `;
         openModal(content);
@@ -444,6 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * @param {string} description
    */
   function showToast(type, title, description) {
+    window.showToast = showToast;
     // Locate or create the fixed toast container
     let container = document.querySelector('.toast-container');
     if (!container) {

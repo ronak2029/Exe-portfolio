@@ -2277,22 +2277,20 @@ footer.editorial-footer .footer-bottom-bar {
   backdrop-filter: blur(8px);
   z-index: 200;
   display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 3rem;
+  overflow-y: auto;
+  padding: 3rem 1.5rem;
 }
 
 .modal-overlay.active {
-  display: flex;
+  display: block;
   animation: fadeIn var(--transition-fast) forwards;
 }
 
 .modal-container {
   width: 100%;
   max-width: 750px;
-  max-height: 85vh;
+  margin: 3rem auto;
   border-radius: var(--border-radius-sm);
-  overflow-y: auto;
   border: 1px solid var(--border-color);
   background: var(--color-bg-surface);
   box-shadow: var(--shadow-hover);
