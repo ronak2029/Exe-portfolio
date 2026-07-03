@@ -1,3 +1,10 @@
+window.onerror = function(message, source, lineno, colno, error) {
+  const errorMsg = `Error: ${message} (Line ${lineno})`;
+  console.error(errorMsg, error);
+  alert(errorMsg);
+  return false;
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   
   // --- DATABASE: FASHION Chronicles EDITORIALS ---
