@@ -411,6 +411,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // Support Ticket Form
+  // Get your free access key at https://web3forms.com/
+  const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
+
   const ticketForm = document.getElementById('support-ticket-form');
   const ticketSuccess = document.getElementById('ticket-success');
   const ticketIdDisplay = document.getElementById('ticket-id-display');
@@ -426,13 +429,30 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.innerHTML = 'Sending Inquiry...';
         submitBtn.disabled = true;
       }
+
+      if (WEB3FORMS_ACCESS_KEY === "YOUR_ACCESS_KEY_HERE") {
+        if (submitBtn) {
+          submitBtn.innerHTML = 'Send Inquiry';
+          submitBtn.disabled = false;
+        }
+        alert('Configuration Required: Please set your Web3Forms Access Key in app.js (line 415).');
+        return;
+      }
       
-      fetch('send_email.php', {
+      fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        body: JSON.stringify({ email, category, message })
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          from_name: 'Maison AURA Support',
+          subject: `New Maison AURA Inquiry: ${category.toUpperCase()}`,
+          email: email,
+          category: category,
+          message: message
+        })
       })
       .then(res => res.json())
       .then(data => {
@@ -443,12 +463,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.success) {
           const randomId = Math.floor(10000 + Math.random() * 90000);
           if (ticketIdDisplay) {
-            ticketIdDisplay.innerText = `Ticket ID: #AURA-${randomId} (Sent successfully)`;
+            ticketIdDisplay.innerText = `Ticket ID: #AURA-${randomId} (Sent via Web3Forms)`;
           }
           ticketForm.reset();
           ticketSuccess.classList.add('active');
         } else {
-          alert('Delivery Error: ' + data.message);
+          alert('Delivery Error: ' + (data.message || 'Verification failed. Check your Web3Forms access key.'));
         }
       })
       .catch(err => {
@@ -457,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
           submitBtn.disabled = false;
         }
         console.error(err);
-        alert('Network/Server Error: Unable to submit styling inquiry.');
+        alert('Network/Server Error: Unable to contact the form submit service.');
       });
     });
   }
