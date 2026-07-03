@@ -418,14 +418,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const EMAILJS_SERVICE_ID = "service_o7z06os";
   const EMAILJS_TEMPLATE_ID = "template_6rq6h0g";
 
-  /**
-   * Initializes the EmailJS library
-   */
   function initEmail() {
     try {
       if (typeof emailjs !== 'undefined') {
         if (EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
-          emailjs.init(EMAILJS_PUBLIC_KEY);
+          emailjs.init({
+            publicKey: EMAILJS_PUBLIC_KEY
+          });
         }
       } else {
         console.warn('EmailJS SDK not loaded yet.');
