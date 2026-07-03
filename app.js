@@ -486,12 +486,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /**
    * Validates form parameters
+   * @param {string} name
    * @param {string} email
-   * @param {string} category
    * @param {string} message
    * @returns {boolean}
    */
-  function validateForm(email, category, message) {
+  function validateForm(name, email, message) {
+    if (!name || name.trim() === '') {
+      showToast('error', 'Validation Error', 'Full Name is required.');
+      return false;
+    }
+
     if (!email) {
       showToast('error', 'Validation Error', 'Registered Client Email is required.');
       return false;
@@ -504,13 +509,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return false;
     }
 
-    if (!category) {
-      showToast('error', 'Validation Error', 'Inquiry Subject is required.');
-      return false;
-    }
-
     if (!message || message.trim() === '') {
-      showToast('error', 'Validation Error', 'Please describe your inquiry.');
+      showToast('error', 'Validation Error', 'Please enter your message.');
       return false;
     }
 
@@ -553,23 +553,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  async function sendInquiry(email, category, message) {
+  /**
+   * Sends the inquiry payload via EmailJS
+   * @param {string} name
+   * @param {string} email
+   * @param {string} message
+   * @returns {Promise<any>}
+   */
+  async function sendInquiry(name, email, message) {
     if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY" || EMAILJS_SERVICE_ID === "YOUR_SERVICE_ID" || EMAILJS_TEMPLATE_ID === "YOUR_TEMPLATE_ID") {
       throw new Error("EmailJS credentials are not configured yet.");
     }
 
-    // Format a friendly Client Name from the email username prefix as a fallback
-    const emailPrefix = email.split('@')[0];
-    const nameFormatted = emailPrefix
-      .split(/[^a-zA-Z0-9]/)
-      .filter(Boolean)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ') || 'Valued Client';
-
     const templateParams = {
-      name: nameFormatted,
+      name: name,
       email: email,
-      subject: category,
       message: message,
       time: new Date().toLocaleString()
     };
@@ -586,12 +584,12 @@ document.addEventListener('DOMContentLoaded', () => {
     ticketForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
+      const name = document.getElementById('ticket-name').value.trim();
       const email = document.getElementById('ticket-email').value.trim();
-      const category = document.getElementById('ticket-category').value;
       const message = document.getElementById('ticket-desc').value.trim();
 
       // Step 1: Validate input fields
-      if (!validateForm(email, category, message)) {
+      if (!validateForm(name, email, message)) {
         return;
       }
 
@@ -600,7 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         // Step 3: Trigger async email send
-        await sendInquiry(email, category, message);
+        await sendInquiry(name, email, message);
 
         // Step 4: Success feedback
         showToast(

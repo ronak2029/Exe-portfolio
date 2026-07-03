@@ -757,27 +757,18 @@
           <h3>Submit Styling Inquiry</h3>
           <form id="support-ticket-form" onsubmit="return false;">
             <div class="form-group premium-field">
+              <input type="text" id="ticket-name" class="form-input" placeholder=" " required>
+              <label for="ticket-name" class="form-label">Full Name</label>
+            </div>
+
+            <div class="form-group premium-field">
               <input type="text" inputmode="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" id="ticket-email" class="form-input" placeholder=" " required>
               <label for="ticket-email" class="form-label">Registered Client Email</label>
             </div>
 
-            <div class="form-group premium-field">
-              <select id="ticket-category" class="form-input" required>
-                <option value="" disabled selected hidden>Select Subject...</option>
-                <option value="fitting">Private Fitting Appointment</option>
-                <option value="sizing">Bespoke Size Adjustments</option>
-                <option value="shipping">Order Tracking & Sourcing</option>
-                <option value="other">General Press / Inquiry</option>
-              </select>
-              <label for="ticket-category" class="form-label">Inquiry Subject</label>
-              <svg class="select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </div>
-
             <div class="form-group premium-field textarea-field">
               <textarea id="ticket-desc" class="form-input" placeholder=" " required></textarea>
-              <label for="ticket-desc" class="form-label">Tell us about your sizing or order adjustments...</label>
+              <label for="ticket-desc" class="form-label">Your Message</label>
             </div>
 
             <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
