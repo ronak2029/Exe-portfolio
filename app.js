@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'b1': {
       title: 'The Resurgence of Structured Minimalist Silhouettes',
       category: 'Silhouette Study',
-      author: 'Sylvia Thorne',
+      author: 'Harsh',
       date: 'July 01, 2026',
       readTime: '12 min read',
       image: 'assets/blog_preview_1.png',
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'b2': {
       title: 'Sourcing Organic Silk: Ethical Sericulture Processes',
       category: 'Atelier Journal',
-      author: 'Julian Vance',
+      author: 'Naina',
       date: 'June 24, 2026',
       readTime: '8 min read',
       image: 'assets/blog_preview_2.png',
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'b3': {
       title: 'Behind the Scenes: SS26 Lookbook Shoot',
       category: 'Styling',
-      author: 'Elena Rostova',
+      author: 'Swikriti',
       date: 'June 15, 2026',
       readTime: '6 min read',
       image: 'assets/project_preview_2.png',
@@ -48,13 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
         <p>The theme of Luminescence revolves around light reflection and organic movement. We chose a wind-swept coastal location where the shifting sun and sea breezes could showcase the fluid drapes of our silk shirts and light linen dresses.</p>
         <h2>On-Set Styling Decisions</h2>
         <p>During the shoot, we focused on monochromatic pairings. Slinky silk blouses were matched with textured linen trousers and raw wood accessories, highlighting the difference between smooth silk shine and rustic matte fabric fibers.</p>
-        <p>You can view the full selection of images inside the Collections tab, and purchase individual items through our private atelier styling desks.</p>
+        <p>You can view the full selection of images inside the Collections tab, and explore detailed draping designs inside our styling portfolio.</p>
       `
     },
     'b4': {
       title: 'The Chemistry of Natural Botanical Indigo Dyes',
       category: 'Fabric Science',
-      author: 'Julian Vance',
+      author: 'Naina',
       date: 'May 29, 2026',
       readTime: '10 min read',
       image: 'assets/project_preview_3.png',
