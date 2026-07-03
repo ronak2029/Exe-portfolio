@@ -414,7 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // EMAILJS INTEGRATION CONFIGURATION
   // Please replace placeholders below with your actual credentials.
   // ============================================================
-  const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+  const EMAILJS_PUBLIC_KEY = "bnp-rkr1iAbkMia5T";
   const EMAILJS_SERVICE_ID = "service_o7z06os";
   const EMAILJS_TEMPLATE_ID = "template_6rq6h0g";
 
