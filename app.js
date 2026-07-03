@@ -212,6 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalContentArea = document.getElementById('modal-content-area');
     if (modalContentArea && modalOverlay) {
       modalContentArea.innerHTML = htmlContent;
+      modalOverlay.style.display = 'block';
+      // Force repaint
+      modalOverlay.offsetHeight;
       modalOverlay.classList.add('active');
       document.body.style.overflow = 'hidden'; // Lock background scrolling
     }
@@ -222,6 +225,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalOverlay) {
       modalOverlay.classList.remove('active');
       document.body.style.overflow = '';
+      // Hide after transition duration (250ms)
+      setTimeout(() => {
+        if (!modalOverlay.classList.contains('active')) {
+          modalOverlay.style.display = 'none';
+        }
+      }, 250);
     }
   }
 
@@ -309,17 +318,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Modal overlay click bindings
-  const modalClose = document.getElementById('modal-close');
-  const modalOverlay = document.getElementById('modal-overlay');
-  if (modalClose) {
-    modalClose.addEventListener('click', closeModal);
-  }
-  if (modalOverlay) {
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) closeModal();
-    });
-  }
+  // Modal close delegated event handler (handles both close button and clicking outside on overlay)
+  document.body.addEventListener('click', (e) => {
+    if (e.target.closest('#modal-close') || e.target === document.getElementById('modal-overlay')) {
+      closeModal();
+    }
+  });
 
   // Attach click events dynamically for blog posts
   document.body.addEventListener('click', (e) => {
