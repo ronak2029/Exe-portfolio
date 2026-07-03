@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Please replace placeholders below with your actual credentials.
   // ============================================================
   const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
-  const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
+  const EMAILJS_SERVICE_ID = "service_o7z06os";
   const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
 
   /**
