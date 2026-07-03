@@ -212,6 +212,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalContentArea = document.getElementById('modal-content-area');
     if (modalContentArea && modalOverlay) {
       modalContentArea.innerHTML = htmlContent;
+      
+      // Temporarily disable smooth scroll behavior on root to prevent lockups with overflow:hidden
+      document.documentElement.style.scrollBehavior = 'auto';
+      
       modalOverlay.style.display = 'block';
       // Force repaint
       modalOverlay.offsetHeight;
@@ -225,10 +229,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalOverlay) {
       modalOverlay.classList.remove('active');
       document.body.style.overflow = '';
-      // Hide after transition duration (250ms)
+      
+      // Hide after transition duration (250ms) and restore scroll behavior
       setTimeout(() => {
         if (!modalOverlay.classList.contains('active')) {
           modalOverlay.style.display = 'none';
+          document.documentElement.style.scrollBehavior = '';
         }
       }, 250);
     }
@@ -327,26 +333,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Attach click events dynamically for blog posts
   document.body.addEventListener('click', (e) => {
-    const blogTitle = e.target.closest('[data-blog-id]');
-    if (blogTitle) {
-      const blogId = blogTitle.getAttribute('data-blog-id');
-      const article = blogDatabase[blogId];
-      if (article) {
-        const content = `
-          <img src="${article.image}" class="modal-header-img" alt="${article.title}">
-          <div class="modal-meta">
-            <span class="badge">${article.category}</span>
-            <span>By ${article.author}</span>
-            <span>&bull;</span>
-            <span>${article.date}</span>
-            <span>&bull;</span>
-            <span>${article.readTime}</span>
-          </div>
-          <h1 style="font-size: 2rem; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; line-height: 1.3;">${article.title}</h1>
-          <div class="modal-body">${article.content}</div>
-        `;
-        openModal(content);
+    try {
+      const blogTitle = e.target.closest('[data-blog-id]');
+      if (blogTitle) {
+        e.preventDefault();
+        const blogId = blogTitle.getAttribute('data-blog-id');
+        const article = blogDatabase[blogId];
+        if (article) {
+          const content = `
+            <img src="${article.image}" class="modal-header-img" alt="${article.title}">
+            <div class="modal-meta">
+              <span class="badge">${article.category}</span>
+              <span>By ${article.author}</span>
+              <span>&bull;</span>
+              <span>${article.date}</span>
+              <span>&bull;</span>
+              <span>${article.readTime}</span>
+            </div>
+            <h1 style="font-size: 2rem; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; line-height: 1.3;">${article.title}</h1>
+            <div class="modal-body">${article.content}</div>
+          `;
+          openModal(content);
+        }
       }
+    } catch (err) {
+      console.error("Error opening editorial modal:", err);
     }
   });
 

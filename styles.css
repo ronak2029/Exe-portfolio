@@ -2312,7 +2312,8 @@ footer.editorial-footer .footer-bottom-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: 1000;
+  pointer-events: auto !important;
   transition: var(--transition-fast);
 }
 
