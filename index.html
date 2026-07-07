@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Maison AURA | Haute Couture, Lookbooks & Atelier Hub</title>
   <meta name="description" content="Welcome to Maison AURA - A luxury fashion house presenting couture lookbooks, ethical fabric designs, community styling channels, and styling care.">
-  <link rel="stylesheet" href="styles.css?v=23.0">
+  <link rel="stylesheet" href="styles.css?v=24.0">
 </head>
 <body>
   <div class="grid-overlay"></div>
@@ -634,13 +634,13 @@
         <!-- Table grid layout instead of generic cards -->
         <div class="blog-grid reveal stagger-1" id="blog-grid">
           <!-- Post 1 -->
-          <div class="blog-card" data-title="resurgence structured minimalist silhouettes architectural tailoring">
+          <div class="blog-card" data-blog-id="b1" data-title="resurgence structured minimalist silhouettes architectural tailoring">
             <div class="blog-card-img">
               <img src="assets/blog_preview_1.png" alt="Runway silhouette styling close-up" style="width:100%; height:100%; object-fit:cover;">
             </div>
             <div class="blog-card-content">
               <span class="badge">Study</span>
-              <h4 data-blog-id="b1">The Resurgence of Structured Minimalist Silhouettes</h4>
+              <h4>The Resurgence of Structured Minimalist Silhouettes</h4>
               <p>An editorial investigation detailing how architectural wool cuts, padded shoulders, and hidden seam structures shape our autumn lookbooks.</p>
               <div class="blog-card-meta">
                 <span>By Harsh</span>
@@ -650,13 +650,13 @@
           </div>
 
           <!-- Post 2 -->
-          <div class="blog-card" data-title="sourcing organic silk sericulture ethical craftsmanship weaving dyeing">
+          <div class="blog-card" data-blog-id="b2" data-title="sourcing organic silk sericulture ethical craftsmanship weaving dyeing">
             <div class="blog-card-img">
               <img src="assets/blog_preview_2.png" alt="Close-up of golden silk threads on raw loom" style="width:100%; height:100%; object-fit:cover;">
             </div>
             <div class="blog-card-content">
               <span class="badge">Atelier Journal</span>
-              <h4 data-blog-id="b2">Sourcing Organic Silk: Ethical Sericulture</h4>
+              <h4>Sourcing Organic Silk: Ethical Sericulture</h4>
               <p>Explore Maison AURA's journey partnering with organic mulberry farms and spinning raw Ahimsa silk on solar-powered heritage looms.</p>
               <div class="blog-card-meta">
                 <span>By Naina</span>
@@ -666,13 +666,13 @@
           </div>
 
           <!-- Post 3 -->
-          <div class="blog-card" data-title="fostering digital community lookbooks styling reviews design channels">
+          <div class="blog-card" data-blog-id="b3" data-title="fostering digital community lookbooks styling reviews design channels">
             <div class="blog-card-img">
               <img src="assets/project_preview_2.png" alt="Interactive styling showroom sketchboard" style="width:100%; height:100%; object-fit:cover;">
             </div>
             <div class="blog-card-content">
               <span class="badge">Styling</span>
-              <h4 data-blog-id="b3">Behind the Scenes: SS26 Lookbook Shoot</h4>
+              <h4>Behind the Scenes: SS26 Lookbook Shoot</h4>
               <p>Swikriti shares styling diaries from our recent coastal shoot, blending sunset silk blazers with vintage flax ornaments.</p>
               <div class="blog-card-meta">
                 <span>By Swikriti</span>
@@ -682,13 +682,13 @@
           </div>
 
           <!-- Post 4 -->
-          <div class="blog-card" data-title="natural botanical indigo dyes flax organic linen">
+          <div class="blog-card" data-blog-id="b4" data-title="natural botanical indigo dyes flax organic linen">
             <div class="blog-card-img">
               <img src="assets/project_preview_3.png" alt="Artisanal dye baths in organic studio" style="width:100%; height:100%; object-fit:cover;">
             </div>
             <div class="blog-card-content">
               <span class="badge">Fabric Science</span>
-              <h4 data-blog-id="b4">The Chemistry of Natural Botanical Indigo Dyes</h4>
+              <h4>The Chemistry of Natural Botanical Indigo Dyes</h4>
               <p>How we ferment leaves of Indigofera and oxidize fabrics to construct deep indigos without heavy chemical mordants.</p>
               <div class="blog-card-meta">
                 <span>By Naina</span>
@@ -871,7 +871,12 @@
   <!-- Blog & Project Detail Modal -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal-container glass">
-      <button class="modal-close-btn" id="modal-close" aria-label="Close modal">&times;</button>
+      <button class="modal-close-btn" id="modal-close" aria-label="Close modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
       <div class="modal-content" id="modal-content-area">
         <!-- Rendered dynamically by JavaScript -->
       </div>
@@ -882,6 +887,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="app.js?v=23.0"></script>
+  <script src="app.js?v=24.0"></script>
 </body>
 </html>

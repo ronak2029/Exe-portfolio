@@ -223,9 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Temporarily disable smooth scroll behavior on root to prevent lockups with overflow:hidden
       document.documentElement.style.scrollBehavior = 'auto';
       
-      modalOverlay.style.display = 'block';
-      // Force repaint
-      modalOverlay.offsetHeight;
       modalOverlay.classList.add('active');
       document.body.style.overflow = 'hidden'; // Lock background scrolling
     }
@@ -237,13 +234,12 @@ document.addEventListener('DOMContentLoaded', () => {
       modalOverlay.classList.remove('active');
       document.body.style.overflow = '';
       
-      // Hide after transition duration (250ms) and restore scroll behavior
+      // Restore smooth scroll behavior after transition completes (300ms)
       setTimeout(() => {
         if (!modalOverlay.classList.contains('active')) {
-          modalOverlay.style.display = 'none';
           document.documentElement.style.scrollBehavior = '';
         }
-      }, 250);
+      }, 300);
     }
   }
 
