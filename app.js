@@ -339,35 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Attach click events dynamically for blog posts
-  document.body.addEventListener('click', (e) => {
-    try {
-      const blogTitle = e.target.closest('[data-blog-id]');
-      if (blogTitle) {
-        e.preventDefault();
-        const blogId = blogTitle.getAttribute('data-blog-id');
-        const article = blogDatabase[blogId];
-        if (article) {
-          const content = `
-            <img src="${article.image}" class="modal-header-img" alt="${article.title}">
-            <div class="modal-meta">
-              <span class="badge">${article.category}</span>
-              <span>By ${article.author}</span>
-              <span>&bull;</span>
-              <span>${article.date}</span>
-              <span>&bull;</span>
-              <span>${article.readTime}</span>
-            </div>
-            <h1 style="font-size: 2rem; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; line-height: 1.3;">${article.title}</h1>
-            <div class="modal-body">${article.content}</div>
-          `;
-          openModal(content);
-        }
-      }
-    } catch (err) {
-      console.error("Error opening editorial modal:", err);
-    }
-  });
+
 
   // Attach click events dynamically for project detail buttons
   document.body.addEventListener('click', (e) => {
@@ -395,26 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Editorials Search
-  const blogSearch = document.getElementById('blog-search');
-  const blogGrid = document.getElementById('blog-grid');
-  if (blogSearch && blogGrid) {
-    blogSearch.addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase().trim();
-      const blogCards = blogGrid.querySelectorAll('.blog-card');
 
-      blogCards.forEach(card => {
-        const matchText = card.getAttribute('data-title') || '';
-        const textTitle = card.querySelector('h4').innerText.toLowerCase();
-        
-        if (matchText.includes(query) || textTitle.includes(query)) {
-          card.style.display = 'grid';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
-  }
 
   // FAQ Accordion expansion
   const faqItems = document.querySelectorAll('.faq-item');
