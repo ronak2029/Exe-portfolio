@@ -384,7 +384,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // --- LIVE FORUM LIKES (LocalStorage 1-Like-Per-Device Guard) ---
+  const defaultLikes = {
+    't1': 94,
+    't2': 112,
+    't3': 254
+  };
 
+  const likeButtons = document.querySelectorAll('.forum-like-btn');
+  likeButtons.forEach(btn => {
+    const threadId = btn.getAttribute('data-thread-id');
+    const isLiked = localStorage.getItem(`liked_${threadId}`) === 'true';
+    const countSpan = btn.querySelector('.like-count');
+    
+    let currentLikes = defaultLikes[threadId] || 0;
+    if (isLiked) {
+      btn.classList.add('liked');
+      currentLikes += 1;
+    }
+    if (countSpan) {
+      countSpan.innerText = currentLikes;
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const alreadyLiked = localStorage.getItem(`liked_${threadId}`) === 'true';
+      if (alreadyLiked) {
+        // Unlike
+        localStorage.removeItem(`liked_${threadId}`);
+        btn.classList.remove('liked');
+        currentLikes = (defaultLikes[threadId] || 0);
+        showToast('success', 'Like Removed', 'Your preference has been updated.');
+      } else {
+        // Like
+        localStorage.setItem(`liked_${threadId}`, 'true');
+        btn.classList.add('liked');
+        currentLikes = (defaultLikes[threadId] || 0) + 1;
+        showToast('success', 'Post Liked', 'Thank you for participating in styling discussions.');
+      }
+      
+      if (countSpan) {
+        countSpan.innerText = currentLikes;
+      }
+    });
+  });
 
   // ============================================================
   // EMAILJS INTEGRATION CONFIGURATION

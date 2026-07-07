@@ -1433,14 +1433,43 @@ body::before {
   margin-top: 1.25rem;
 }
 
-.forum-stat {
+.forum-like-btn {
   display: flex;
   align-items: center;
   gap: 0.35rem;
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s var(--transition-ease);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--border-radius-sm);
 }
 
-.forum-stat svg {
+.forum-like-btn svg {
   color: var(--color-text-muted);
+  fill: transparent;
+  transition: fill 0.2s var(--transition-ease), color 0.2s var(--transition-ease);
+}
+
+.forum-like-btn:hover {
+  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.forum-like-btn:hover svg {
+  color: var(--color-primary);
+}
+
+.forum-like-btn.liked {
+  color: var(--color-primary);
+}
+
+.forum-like-btn.liked svg {
+  color: var(--color-primary);
+  fill: var(--color-primary);
 }
 
 /* Sidebar Widgets */
